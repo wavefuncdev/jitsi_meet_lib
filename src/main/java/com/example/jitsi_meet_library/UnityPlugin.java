@@ -65,7 +65,7 @@ public class UnityPlugin {
     private static byte[] cacheOpusData = new byte[2048];
 
     // url : 接続先サーバーのURL
-    public static void Initialize()
+    public static long Initialize()
     {
         Activity activity = UnityPlayer.currentActivity;
 
@@ -117,6 +117,8 @@ public class UnityPlugin {
 
         registerForBroadcastMessages(activity);
         */
+
+		return 127234;
     }
 
     public static void Destroy()
