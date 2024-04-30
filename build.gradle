@@ -1,0 +1,61 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    signingConfigs {
+        debug {
+            storeFile file('C:\\Users\\mtoda\\.android\\debug.keystore')
+            storePassword 'Nyrcl2030'
+            keyAlias 'debugkeystore'
+            keyPassword 'Nyrcl2030'
+        }
+    }
+    namespace 'com.example.jitsi_meet_library'
+    compileSdk 34
+
+    defaultConfig {
+        minSdk 24
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+repositories {
+    mavenCentral() // Maven Central リポジトリを追加
+    maven {
+        //org.jitsi:libjitsi を使うため
+        url "https://download.jitsi.org/jitsi/maven" // Jitsi Maven リポジトリを追加
+    }
+}
+
+dependencies {
+    // https://mvnrepository.com/artifact/org.jitsi/libjitsi
+    implementation 'org.jitsi:libjitsi:1.1-33-g1d3d357b'
+
+    compileOnly fileTree(dir: "libs", include: ["classes.jar"])
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.11.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    implementation project(':sdk')
+}
+
+android.libraryVariants.all{ variant->
+    variant.outputs.each{output->
+        output.packageLibrary.exclude('libs/classes.jar')
+    }
+}
